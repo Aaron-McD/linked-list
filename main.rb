@@ -14,9 +14,14 @@ list.prepend(6)
 list.prepend(5)
 
 puts list
-puts list.head
-puts list.tail
-puts list.at(4)
-puts list.contains?(15)
-puts list.contains?(9)
-puts list.find(15)
+puts list.size
+
+list.insert_at(25, 4)
+
+puts list
+puts list.size
+
+list.remove_at(12)
+
+puts list
+puts list.size

@@ -71,15 +71,33 @@ class LinkedList
 
     def pop
         node = @tail
-        if(@size != 1)
+        if(@size == 0)
+            return nil
+        elsif(@size != 1)
             @tail = @tail.last_node
             @tail.reset_next_node
-            
+            @size -= 1
         else
             @tail = nil
             @head = nil
+            @size = 0
         end
-        @size -= 1
+        return node
+    end
+
+    def shift
+        node = @head
+        if(@size == 0)
+            return nil
+        elsif(@size != 1)
+            @head = @head.next_node
+            @head.reset_last_node
+            @size -= 1
+        else
+            @tail = nil
+            @head = nil
+            @size = 0
+        end
         return node
     end
 
@@ -112,6 +130,47 @@ class LinkedList
             end
         else
             return nil
+        end
+    end
+
+    def insert_at(value, index)
+        if(index >= self.size)
+            self.append(value)
+        elsif(index <= 0)
+            self.prepend(value)
+        else
+            node = Node.new(value)
+            current_node = @head
+            index.times do
+                current_node = current_node.next_node
+            end
+            prev_node = current_node.last_node
+            node.prepend(prev_node)
+            prev_node.append(node)
+            node.append(current_node)
+            current_node.prepend(node)
+            @size += 1
+        end
+    end
+
+    def remove_at(index)
+        if(index >= self.size)
+            self.pop
+        elsif(index <= 0)
+            self.shift
+        else
+            current_node = @head
+            index.times do
+                current_node = current_node.next_node
+            end
+            next_node = current_node.next_node
+            last_node = current_node.last_node
+            next_node.prepend(last_node)
+            last_node.append(next_node)
+            @size -= 1
+            current_node.reset_next_node
+            current_node.reset_last_node
+            return current_node
         end
     end
 
